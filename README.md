@@ -7,3 +7,29 @@ def mark_sweep():
     mark_phase()
     sweep_phase()
 ```
+### 标记阶段
+在标记阶段，为堆里所有活动对象打上标记，首先标记通过根直接引用的对象，然后递归地标记通过指针数组能访问到的对象。
+```
+def mark_phase():
+    for element in root:
+        mark(element)
+def mark(obj):
+    if obj.mark == False:
+        obj.mark == True
+        for child in children(obj):
+            mark(child)
+```
+标记完所有活动对象后，标记阶段就结束了，标记所花费的时间与‘活动对象总数’成正比，用一句话概括：标记阶段是‘遍历对象并标记’的处理过程。
+### 清除阶段
+在清除阶段，遍历整个堆，回收没有打上标记的对象。
+```
+def sweep_phase():
+    sweeping = $heap_start
+    while sweeping < $heap_end:
+        if sweeping.mark == True:
+            sweeping.mark = False
+        else:
+            sweeping.next = $free_list
+            $free_list = sweeping
+        sweeping += sweeping.size 
+```
