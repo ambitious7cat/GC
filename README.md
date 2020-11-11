@@ -33,3 +33,17 @@ def sweep_phase():
             $free_list = sweeping
         sweeping += sweeping.size 
 ```
+## 引用计数法
+引用计数法引入了一个概念--计数器。计数器表示的是对象的人气指数，也就是有多少程序引用了这个对象。在生成新对象时会调用new_obj()函数
+```
+def new_obj(size):
+    obj = pick_chunk(size, $free_list):
+    if obj == null:
+        allocation_fail()
+    else:
+        obj.ref_cnt = 1
+        rerurn obj 
+```
+## 分代回收
+人们从众多程序案例中总结出了一个经验：‘大部分的对象在生成后马上就变成了垃圾，很少有对象能活得很久’
+分代垃圾回收利用该经验，在对象中导入了‘年龄’的概念，经历过一次GC后活下来的对象年龄为1岁。
